@@ -23,3 +23,32 @@ On the other hand, we have containers. Containers are a more lightweight and eff
 -Portability as VMs are less portable due to their size and dependencies and Contains are highly portable and can run consistently across different environmnents.
 
 <img width="1710" height="830" alt="image" src="https://github.com/user-attachments/assets/5f9d815c-9f26-4cd1-8e0d-e6633f048ac4" />
+
+
+
+Docker commands
+---
+
+This command checks the version of docker your running 
+```
+docker --version
+```
+
+A comprehensive overview of your environment which is useful for troubleshooting or understand the systems current state
+```
+docker info
+```
+
+To run a docker container - it first checks if the "hello world" image is present on your machine, if not it pulls the image from docker hub and then a container is made from this image.
+```
+docker run hello-world
+```
+
+This command shows you the containers that are running and more information
+```
+docker ps
+
+docker ps -a - to see all containers even if stopped
+```
+
+
