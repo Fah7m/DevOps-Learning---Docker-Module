@@ -58,3 +58,39 @@ Docker Hub - This is basically a repository where you can find and share contain
 
 Docker Compose - Is the tool for defining and running multi container Docker apps - Docker Compose manages more than one of these containers. It's like writing a recipe for how your entire application should run, what services are needed, how they interact, and what 
 resources they require. For instance, if your application needs a web server, a database, and a cache, Docker Compose helps you define and orchestrate these components together because these components are required in essentially a single application.
+
+
+Understanding Dockerfile
+---
+
+Each instruction in a Docker file creates a layer in the image which makes it easy to track changes and optimize your builds. DockerFiles also allow for repeatable builds which means you can create the exact same environment every single time
+
+From- This command specifies the base image to use for the Docker image - if you have JS or Node image, then you will use the Node image.
+
+RUN-This command executes commands in the container and it is used for installing packages, update depencies etc 
+
+COPY-This command will essentially copy files from your local machine into the the container - this is how the application code and config is put into a container 
+
+WORKDIR-This command sets the working directory for subsequent instructions - This ensures that the command runs in the correct directory within the container e.g. setting WORKDIR to /app so the following commands will be run within that /app directory
+
+CMD-This specifies the command to run when the container starts so if it is a python file then the CMD Python3 or Python <filename> will be run - this defines the behaviour of the container once it starts up
+
+<img width="1135" height="732" alt="image" src="https://github.com/user-attachments/assets/3f8147b6-d67f-42ac-b413-8c77f43aacb9" />
+
+**In this example what is happening is:**
+
+**FROM** instruction is set for the base image which is Node.js image, Node 14.
+
+**WORKDIR** is set to everything else is executed in the correct directory
+
+**COPY** package*.json which copies files from the host machine to the container - copying package.json and package-lock.json files to install dependencies
+
+**RUN** instruction will execute commands in the container. This case we are doing **run npm install** to install Node.js dependencies. - installing the dependencies that are specified in the package.json becuase the package.json is now copied over so the dependencies can now be installed which are present within the package.json file
+
+**COPY...** Once installation of dependencies is done, then we can copy the rest of the application code - This step is placed after dependency installation to take advantage of Docker layer caching — dependencies only get reinstalled if package*.json changes.
+
+**EXPOSE 3000** This tells Docker that the container will listen on the specified network ports at runtime (once started) - useful in cases when you want to run the container and expose ports to the host machine.
+
+**CMD** in this example we run node index.js when the container starts
+
+
