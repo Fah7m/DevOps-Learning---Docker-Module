@@ -94,3 +94,14 @@ CMD-This specifies the command to run when the container starts so if it is a py
 **CMD** in this example we run node index.js when the container starts
 
 
+Docker networking 
+---
+
+The three networking concepts in Docker are:
+
+**Bridge** network is the default network mode for containers on the same machine. Containers connected to the bridge network can communicate with each other using their own IP addresses. This is isolated from the host machine's network therefore providing extra layer of security
+
+**Host** mode uses the host machine's network directly without any isolation. Basically it's like the container is plugged directly into the home network with no distinction between the container and the host - this is useful for apps that need to closely interact with the host system
+
+**None** network setup gives the container no network at all which makes it completely isolated. this is used when you want to ensure a container has no network access whatsoever which is good for certain security scenarios
+
