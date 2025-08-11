@@ -5,9 +5,13 @@ Creating a web app to containerize
 ---
 
 1. We run VS code and use the WSL terminal we installed to:
+
 -Create a directory for the App
+
 -"pip3 install flask" to install the flask framework for web apps in python
+
 -"touch app.py" to create the application - can paste command here
+
 -Since we are running this in the WSL terminal we can do "code app.py" to open a remote window of VS code - may need to put the full directory if your not in the same dir as the app
 
 <img width="1197" height="851" alt="image" src="https://github.com/user-attachments/assets/d455a636-f9a5-43f6-81e9-3f0e809e6f01" />
@@ -16,6 +20,7 @@ Creating a web app to containerize
 
 2. We write the Dockerfile
 -do a "touch Dockerfile" to create the file and make sure it has a capital D
+
 -We now write the instructions in the docker file
 
 <img width="328" height="145" alt="image" src="https://github.com/user-attachments/assets/866d95b4-04d0-4167-a35f-7a5685489bd0" />
@@ -31,6 +36,53 @@ docker build -t hello-flask .
 ```
 docker run -d -p 5002:5002 hello-flask
 ```
+
+Linking containers together
+---
+Here we will add a database on top of our application to return a value to imitate a real world scenario 
+
+1. This is the updated code that will connect to a MySql database
+
+<img width="522" height="451" alt="image" src="https://github.com/user-attachments/assets/aa23645f-5a1a-4cf4-b9ee-5cb1eb09377f" />
+
+
+2. The Dockerfile now needs to be updated so the dependencies for MySQL is installed as well as the mysqlclient which provides the tools needed to connect the database from within our application
+
+<img width="384" height="253" alt="image" src="https://github.com/user-attachments/assets/a4319427-5563-4a2b-b2df-eddfba82a05e" />
+
+***An extra RUN instruction has been added now to install the system dependencies for the mysqlclient*** - Also, we now RUN the mysqlclient too
+
+3. Creating a custom network for containers to communicate with each other
+
+=The command basically creates a custom network that we will use later to connect the flask and mysql containers
+```
+docker network create my-custom-network
+```
+
+4. running the mysql container
+
+-Here we first do a docker run -d for running in the background and then define the name of the container, then we set the network to the network we created before, we use the -e flag to set the root password for MySQL database (should be saved somewhere), and finally we specify the version of MySQL which is 5.7 
+
+```
+docker run -d --name mydb --network my-custom-network -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:5.7
+```
+
+5. Here we build the docker image for the Flask app with the updated Dockerfile
+
+-we run this to build the docker image but we add in mysql and point to the current directory which is where the Dockerfile is
+
+```
+docker build -t hello-flask-mysql .
+```
+
+6. We run the flask application this time
+
+-We define the name as myapp this time and use the same custom-network we can connect the database container, and the application container
+
+```
+docker run -d --name myapp --network my-custom-network -p 5002:5002 hello-flask-mysql
+```
+
 Common interview question
 ---
 
@@ -81,4 +133,7 @@ docker ps
 docker ps -a - to see all containers even if stopped
 ```
 
-
+This command will show the logs of a container - good for troubleshooting and debugging
+```
+docker logs mycontainername
+```
