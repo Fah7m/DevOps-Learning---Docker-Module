@@ -14,8 +14,23 @@ Creating a web app to containerize
 
 ***This is how it will look***
 
-2. 
+2. We write the Dockerfile
+-do a "touch Dockerfile" to create the file and make sure it has a capital D
+-We now write the instructions in the docker file
 
+<img width="328" height="145" alt="image" src="https://github.com/user-attachments/assets/866d95b4-04d0-4167-a35f-7a5685489bd0" />
+
+-Finally we build it by doing "docker build -t hello-flask ." - ***docker build*** will initiate the build process, ***-t hello-flask*** will tag the image with a name in this case it will be called hello-flask, finally the ***dot at the end*** represents the current directory so in other cases you may want to point to a certain directory and this is where it is done.
+
+```
+docker build -t hello-flask .
+```
+
+3. We now run the container once it has been built
+-The -d flag runs the container in detached mode which means running it in the background, -p maps the ports 5002 on my machine to the 5002 port in the container, finally the name of the image we are using which is hello-flask
+```
+docker run -d -p 5002:5002 hello-flask
+```
 Common interview question
 ---
 
