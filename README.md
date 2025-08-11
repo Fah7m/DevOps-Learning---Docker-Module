@@ -1,6 +1,21 @@
 # DevOps-Learning---Docker-Module
 Docker notes and learning
 
+Creating a web app to containerize
+---
+
+1. We run VS code and use the WSL terminal we installed to:
+-Create a directory for the App
+-"pip3 install flask" to install the flask framework for web apps in python
+-"touch app.py" to create the application - can paste command here
+-Since we are running this in the WSL terminal we can do "code app.py" to open a remote window of VS code - may need to put the full directory if your not in the same dir as the app
+
+<img width="1197" height="851" alt="image" src="https://github.com/user-attachments/assets/d455a636-f9a5-43f6-81e9-3f0e809e6f01" />
+
+***This is how it will look***
+
+2. 
+
 Common interview question
 ---
 
