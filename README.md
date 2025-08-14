@@ -141,3 +141,27 @@ This command will show the logs of a container - good for troubleshooting and de
 ```
 docker logs mycontainername
 ```
+
+A command to remove unused images and cache to free up space - use with care
+```
+docker system prune
+```
+Removes all stopped containers
+All networks not being used
+Dangling images
+And build cache 
+
+This command will show all the iamges that you have 
+```
+docker images
+```
+
+This command will inspect the container or network
+```
+docker inspect <ID or name>
+```
+
+This command is useful for viewing networks and using the inspect command to see which networks a container is connected to is a useful combo
+```
+docker network ls
+```
