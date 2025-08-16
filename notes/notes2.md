@@ -100,3 +100,62 @@ docker push 200110254966.dkr.ecr.us-east-1.amazonaws.com/flask-mysql:latest
 We can also switch push with pull to grab the image.
 
 <img width="812" height="623" alt="image" src="https://github.com/user-attachments/assets/5c491bba-9e27-4ce2-b5ec-d8130dcc5a39" />
+
+
+Using multistage builds to save space
+---
+
+After checking how much size my flask app has taken with the below command, I have decided to make my Dockerfile multistage which will essentially use multiple FROM statements  that will use one for Build stage and another for a much lighter finals tage. 
+
+```
+docker images <image name>
+```
+
+There is a part that requires all the dependencies to build the app, but all the dependencies are not required in the actual final image. This approach lets you discard unnessary files and dependencies which results in a smaller optimized image. By reducing the size, the deployments will be much faster and efficient. 
+
+```
+# stage 1: build stage
+FROM python:3.8-slim as Build
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libmariadb-dev \
+    pkg-config
+
+COPY . .
+
+RUN pip install flask mysqlclient
+
+# STAGE2: Prod
+
+FROM python:3.8-slim
+
+WORKDIR /app
+
+COPY --from=Build /app /app
+
+EXPOSE 5002
+
+CMD ["python", "app.py"]
+```
+***Example of a multistage build***
+
+After you have edited the dockerfile to be "multistage deployment", you just need to do the following 
+
+```
+docker build -t my-flask-app:multistage .
+
+docker-compose up -d
+```
+
+After building and editing my compose file to make this build mutlistage, I can see the size is now much smaller compared to what it was before 
+
+```
+fahim@DESKTOP-CNID5Q9:~/docker/hello_flask$ docker images my-flask-app:multistage
+REPOSITORY     TAG          IMAGE ID       CREATED        SIZE
+my-flask-app   multistage   e2e4141cbae9   19 hours ago   311MB
+```
+
