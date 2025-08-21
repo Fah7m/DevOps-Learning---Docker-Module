@@ -1,17 +1,3 @@
-The Task
----
-
-Create a multi-container application that consists of a simple Python Flask web application and a Redis database. The Flask application should use Redis to store and retrieve data.
-
-
-My overview
----
-
-After going through the videos in the docker module, I found it easy to follow along and didn't come across any errors when doing so until it got to the project. 
-
-The project gave me a much better understanding on how each file (dockerfile and compose.yaml) is used in docker and touched up on docker swarm a bit. I believe there is a lot to cover in docker just to make sure I get to grips with it and perfect this skill.
-
-Overall, I enjoyed this module and gave me a snippit of what's yet to come in my Devops journey.
 
 
 How to run
